@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        std::stack<char> brackets;
+        for (auto s_char : s) {
+            switch (s_char){
+                case '(':
+                    brackets.push(')');
+                    break;
+                case '{':
+                    brackets.push('}');
+                    break;                    
+                case '[':
+                    brackets.push(']');
+                    break;
+                default:
+                    if (brackets.empty()||brackets.top() != s_char) return false;
+                    else brackets.pop();
+            }
+        }
+        if (brackets.empty()) return true;
+        else return false;
+    }
+};
