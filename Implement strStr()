@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        unsigned int needle_size = needle.size();
+        unsigned int haystack_size = haystack.size();
+        if (needle_size == 0) return 0;
+        if (haystack_size == 0) return -1;
+        int needle_number[needle_size] = {-1};
+        unsigned int current_needle = 0;
+        int k = -1;
+        while (current_needle < needle_size - 1) {
+            if (k == -1 || needle[current_needle] == needle[k]) {
+                needle_number[++current_needle] = ++k;
+            }
+            else {
+                k = needle_number[k];
+            }
+        }
+        int j = 0;
+        int i = 0;
+        while (i < haystack_size) {
+            if (j == needle_size) break;
+            if (j == -1 || haystack[i] == needle[j]) {
+                j++;
+                i++;
+                continue;
+            }
+            else {
+                j = needle_number[j];
+            }
+        }
+        if (j >= needle_size) return i - j;
+        return -1;
+    }
+};
