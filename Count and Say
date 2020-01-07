@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        if (n == 1) return "1";
+        else {
+            string current;
+            string before = countAndSay(n - 1);
+            unsigned int before_size = before.size();
+            unsigned int num = 1;
+            for (int i = 0 ; i < before_size - 1; i++) {
+                if (before[i + 1] != before[i]) {
+                    current += (char)(num+'0');
+                    current += before[i];
+                    num = 1;
+                }
+                else num++;
+            }
+            current += (char)(num+'0');
+            current += before[before_size - 1];
+            return std::move(current);
+        }
+    }
+};
