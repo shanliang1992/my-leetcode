@@ -1,0 +1,43 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int add = 0;
+        string result = "";
+        int i = a.size() -1,j = b.size()-1;
+        for (; i>=0&&j>=0; i--,j--){
+            char tmp = a[i] + b[j] + add - '0';
+            if (tmp == '0'|| tmp =='1') {
+                result = tmp+result;
+                add = 0;
+            }
+            else{
+                result = ((char)(tmp-2))+result;
+                add = 1;
+            }
+        }
+        for (;i>=0;i--){
+            char tmp = a[i] + add;
+            if (tmp == '0' || tmp =='1') {
+                result = tmp + result;
+                add = 0;
+            }
+            else {
+                result = ((char)(tmp-2)) + result;
+                add = 1;
+            }
+        }
+        for (;j>=0;j--){
+            char tmp = b[j] + add;
+            if (tmp == '0' || tmp =='1') {
+                result = tmp + result;
+                add = 0;
+            }
+            else {
+                result = ((char)(tmp-2)) + result;
+                add = 1;
+            }
+        }
+        if (add == 1) result = '1'+result;
+        return result;
+    }
+};
