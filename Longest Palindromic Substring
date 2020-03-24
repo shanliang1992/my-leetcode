@@ -1,0 +1,44 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if (s.length() <= 1) 
+            return s;
+
+        string s_new;
+        for (auto a_s:s){
+            s_new.push_back('#');
+            s_new.push_back(a_s);
+        }
+        s_new.push_back('#');
+        
+        int len = s_new.length();
+        int *palin = new int[len];
+        palin[0] = 0;
+        palin[1] = 1;
+        int current_loc = 1;
+        int current_right = 2;
+        int max_loc = 1;
+        for (int i = 2; i < len; i++) {
+            if (i < current_right) {
+                palin[i] = palin[2*current_loc - i];
+                if (i + palin[i] < current_right) continue;
+                palin[i] = current_right - i;
+            }
+            else {
+                palin[i] = 0;
+                current_right = i;
+            }
+            current_loc = i;
+            while (palin[i] + i < len && i - palin[i] >= 0 && s_new[palin[i] + i] == s_new[i - palin[i]]) palin[i]++;
+            palin[i]--;
+            current_right = palin[i] + i;
+            if (palin[i] > palin[max_loc])
+                max_loc = i;
+        }
+        string result;
+        for (int i = max_loc - palin[max_loc]; i < max_loc + palin[max_loc]; i++) {
+            if (s_new[i]!='#') result.push_back(s_new[i]);
+        }
+        return result;
+    }
+};
