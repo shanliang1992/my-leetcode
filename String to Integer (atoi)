@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int myAtoi(string str) {
+        long result = 0;
+        bool postive = true;
+        bool has_num = false;
+        for (auto s:str) {
+            if (s>='0' && s <='9') {
+                result = result*10 + s-'0';
+                has_num = true;
+                if (result > INT_MAX) {
+                    if (postive) 
+                        return INT_MAX;
+                    else 
+                        return INT_MIN;
+                }
+                continue;
+            }
+            if (s == '-' && !has_num) {
+                postive = false;
+                has_num = true;
+                continue;
+            }
+            if (s == '+' && !has_num) {
+                has_num = true;
+                continue;
+            }
+            if (s == ' ' && !has_num) continue;
+            break;
+        }
+        if (postive)
+            return result;
+        else 
+            return -result;
+    }
+};
