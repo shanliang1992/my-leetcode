@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        std::vector<std::string> num_to_letter{"","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        std::vector<std::string> results;
+        for (auto num: digits) {
+            if ((num - '0') < 2 || (num - '0' > 9)) continue;
+            int digit_num = num - '1';
+            std::vector<std::string> results_tmp;
+            if (results.empty()) {
+                for (auto letter:num_to_letter[digit_num]) {
+                    results_tmp.push_back(std::string{letter});
+                }
+            }
+            for (auto result:results) {
+                for (auto letter:num_to_letter[digit_num]) {
+                    results_tmp.push_back(result+letter);
+                }
+            }
+            results = std::move(results_tmp);
+        }
+        return results;
+    }
+};
