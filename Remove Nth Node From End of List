@@ -1,0 +1,17 @@
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* result = head;
+        std::queue<ListNode*> node_queue;
+        while (head) {
+            node_queue.push(head);
+            if (node_queue.size() > n + 1) {
+                node_queue.pop();
+            }
+            head = head->next;
+        }
+        if (node_queue.size() <= n) result = result->next; 
+        else node_queue.front()->next = node_queue.front()->next->next;
+        return result;
+    }
+};
