@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) {
+        std::vector<int> cost_to_dst(n, INT_MAX);
+        std::vector<int> k_to_dst(n, INT_MAX);
+        cost_to_dst[dst]=0;
+        k_to_dst[dst]=0;
+        bool change = true;
+        while(change) {
+            change = false;
+            for(auto flight:flights) {
+                if (cost_to_dst[flight[1]] != INT_MAX && k_to_dst[flight[1]] <= K && cost_to_dst[flight[1]] + flight[2] < cost_to_dst[flight[0]]) {
+                    cost_to_dst[flight[0]] = cost_to_dst[flight[1]] + flight[2];
+                    k_to_dst[flight[0]] = k_to_dst[flight[1]] + 1;
+                    change = true;
+                }
+            }
+        }
+        if (cost_to_dst[src] == INT_MAX) return -1;
+        return cost_to_dst[src];
+    }
+};
