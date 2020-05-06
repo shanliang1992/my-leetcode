@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        std::vector<int> color(graph.size(), 0);
+        color[0] = 1;
+        bool change = true;
+        bool another_graph = true;
+        while(another_graph) {
+            another_graph = false;
+            while(change) {
+                change = false;
+                for (unsigned int i = 0; i < graph.size(); i++) {
+                    for (auto another_pos: graph[i]) {
+                        if (color[i]*color[another_pos] == 1) return false;
+                        if (color[another_pos]!=0 && color[i]==0) {
+                            color[i] = - color[another_pos];
+                            change = true;
+                        }
+                        if (color[another_pos]==0 && color[i]!=0) {
+                            color[another_pos] = - color[i];
+                            change = true;
+                        }
+                    }
+                }
+            }
+            for (unsigned int i = 0; i < color.size(); i++) {
+                if (color[i] == 0){
+                    color[i] = 1;
+                    another_graph = true;
+                    change = true;
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+};
