@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        int left = n, right = n;
+        std::vector<std::string> results;
+        generateParenthesisLeftRight(left, right, results);
+        return results;
+    }
+    
+    bool generateParenthesisLeftRight(int left, int right, std::vector<std::string> &results) {
+
+        if (left <= 0 && right <= 0) return true;
+        if (left == 1 && right == 0) {
+            results = std::vector<std::string>{"("};
+        }
+        else if (left > 1 && right == 0) {
+            generateParenthesisLeftRight(left - 1, right, results);
+            for (int i = 0; i < results.size(); i++) {
+                results[i] += '(';
+            }
+        }
+        else if (left == right) {
+            generateParenthesisLeftRight(left, right - 1, results);
+            for (int i = 0; i < results.size(); i++) {
+                results[i] += ')';
+            }
+        }
+        else if (left > right) {
+            auto results_tmp = results;
+            generateParenthesisLeftRight(left, right - 1, results);
+            for (int i = 0; i < results.size(); i++) {
+                results[i] += ')';
+            }
+            generateParenthesisLeftRight(left - 1, right, results_tmp);
+            for (int i = 0; i < results_tmp.size(); i++) {
+                results_tmp[i] += '(';
+            }
+            results.insert(results.end(),results_tmp.begin(),results_tmp.end());
+        }
+        return true;
+    }
+};
