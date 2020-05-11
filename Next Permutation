@@ -1,0 +1,17 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int size = nums.size();
+        for (auto i = size - 2; i >= 0; i--) {
+            for (auto j = size - 1; j > i; j--) {
+                if (nums[i] < nums[j]) {
+                    nums.insert(nums.begin()+i, nums[j]);
+                    nums.erase(nums.begin()+j+1);
+                    std::sort(nums.begin()+i+1, nums.end());
+                    return;
+                }
+            }
+        }
+        std::sort(nums.begin(),nums.end());
+    }
+};
