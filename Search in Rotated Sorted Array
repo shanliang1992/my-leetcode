@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if (nums.size() == 0) return -1;
+        int left = 0;
+        int right = nums.size() - 1;
+        if (nums[left]==target) return left;
+        if (nums[right]==target) return right;
+        if (nums[left]>target && nums[right] < target) return -1;
+        while(nums[left] > nums[right] && right - left > 1) {
+            int mid = (left+right) / 2;
+            if (nums[mid] == target) return mid;
+            else if ((nums[mid] > target && target > nums[left]) || (target > nums[left] && nums[left] > nums[mid]) || (nums[left] > nums[mid] && nums[mid] > target)) right = mid;
+            else if ((target > nums[mid] && nums[mid] > nums[left])|| (nums[left] > target && target > nums[mid]) || (nums[mid] > nums[left] && nums[left] > target)) left = mid;
+        }
+        if (right - left == 1) return -1;
+        while(right - left > 1) {
+            int mid = (left+right) / 2;
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] > target) right = mid;
+            else if (nums[mid] < target) left = mid;
+        }
+        return -1;
+    }
+};
