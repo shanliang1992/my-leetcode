@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if (nums.size() == 0) return std::vector<int>{-1,-1};
+        int left = 0; int right = nums.size() - 1;
+        while (left != right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] < target)  left = min(right, mid + 1);
+            else if (nums[mid] > target) right = max(left, mid - 1);
+            else if (nums[mid] == target) {
+                int min_left = left;
+                int max_left = mid;
+                while (nums[min_left] != target) {
+                    int mid_left = (min_left + max_left) / 2;
+                    if (nums[mid_left] < target) min_left = mid_left + 1;
+                    else max_left = mid_left;
+                }
+                int min_right = mid;
+                int max_right = right;
+                while (nums[max_right] != target) {
+                    int mid_right = (min_right + max_right) / 2;
+                    if (nums[mid_right] > target) max_right = mid_right;
+                    else {
+                        min_right = mid_right;
+                        max_right--;
+                    }
+                }
+                return std::vector<int>{min_left, max_right};
+            }
+        }
+        if (nums[left] == target) return std::vector<int> {left,left};
+        return std::vector<int> {-1,-1};
+    }
+};
